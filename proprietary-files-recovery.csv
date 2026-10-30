@@ -1,0 +1,31 @@
+source_in_vendor_b,dest_in_recovery_root,bytes,sha256
+/vendor/bin/hw/android.hardware.gatekeeper@1.0-service-qti,/system/bin/android.hardware.gatekeeper@1.0-service-qti,11496,2f819a9dfeb42dde1e4dfabfbed149c9e4372490c038491fc4487f993d8d8f3f
+/vendor/bin/hw/android.hardware.keymaster@4.1-service-qti,/system/bin/android.hardware.keymaster@4.1-service-qti,11864,4ded3ec54371e5c2c8e52c705fc75723e832b200d87e196a3016338bd05034a7
+/vendor/bin/qseecomd,/system/bin/qseecomd,20672,b8d8d6ac8d43bb429719ecd2a58beeb351c41174b6e03414faa2008514c3e312
+/vendor/lib64/hw/android.hardware.gatekeeper@1.0-impl-qti.so,/vendor/lib64/hw/android.hardware.gatekeeper@1.0-impl-qti.so,37856,cef8be48482dd4ed5f6630e3ff72363a69c553d602e00b1876121e9e92c7551d
+/vendor/lib64/libdiag.so,/vendor/lib64/libdiag.so,268568,2a30695fa7e627951b53397cf8fcf665b143ce12d2affdde048b06b3ec790169
+/vendor/lib64/libdrmfs.so,/vendor/lib64/libdrmfs.so,41080,910a0030db5d4c6c3f0b440e71acb1adf573ee3664245d98209a200204151963
+/vendor/lib64/libkeymasterdeviceutils.so,/vendor/lib64/libkeymasterdeviceutils.so,15616,1d4b5f56a50e779037a62f11ab9fbdfebaa98604b64e8455c6928d5934b7f7da
+/vendor/lib64/libkeymasterutils.so,/vendor/lib64/libkeymasterutils.so,51848,8d92872bfe7aead75eecece9206dae52ec2087d6e669ac7f7d2136831def78ba
+/vendor/lib64/libqcbor.so,/vendor/lib64/libqcbor.so,19520,a837390f4a9a1a8d02d16e304464905e6210d3e27f5359e2fc36ddbfebdb2513
+/vendor/lib64/libQSEEComAPI.so,/vendor/lib64/libQSEEComAPI.so,40824,dfad98d6fd00ee81605a505122c90183421f4234d81b896adf13bd286e76610b
+/vendor/lib64/libqtikeymaster4.so,/vendor/lib64/libqtikeymaster4.so,151064,4fe669ed110b16e527cad71bca934f3ac002554234b2646c9f4ee0fc98cec77b
+/vendor/lib64/libGPreqcancel.so,/vendor/lib64/libGPreqcancel.so,20024,cc7409f25627dc65673a16e4790a02dd7bced99085d32efc4775a8e9e13ec727
+/vendor/lib64/libGPreqcancel_svc.so,/vendor/lib64/libGPreqcancel_svc.so,24168,0b0247088d0935ac88d808376de0793e185a88cb71ec292347ce454e35f31b8f
+/vendor/lib64/libStDrvInt.so,/vendor/lib64/libStDrvInt.so,28408,a8ce129f20ed7e8bcd3aae541a010679cea3500e981007d73af6358c99f2cb21
+/vendor/lib64/libdisplayconfig.qti.so,/vendor/lib64/libdisplayconfig.qti.so,162720,3d5b9f29a9e5a77283a689302141d1248984ce9023f3cf1a76953fa4e861f801
+/vendor/lib64/libdrm.so,/vendor/lib64/libdrm.so,83032,b42de2f541cbfad6c01b587953c8c326d8749a11e980071bdd8c8d40c5429ae1
+/vendor/lib64/libdrmtime.so,/vendor/lib64/libdrmtime.so,15416,421d4a1c339e1b3f384909a3d2e402c833afd19ed64171d7cb8bb2cfa54df6db
+/vendor/lib64/libops.so,/vendor/lib64/libops.so,24392,a4eb0c840feb8c6cd77cff96548c9aadf3d233f25c7d49b590394238a23ad04c
+/vendor/lib64/libqisl.so,/vendor/lib64/libqisl.so,20112,09ab0d22fecd9fe8a0010e67e7e092f4a48f2e9b4070b92b3a988a1cd51c4cba
+/vendor/lib64/librpmb.so,/vendor/lib64/librpmb.so,42320,0cbd7882a801bf7dbbe0bcd22b03232e1c4f59c5d44191f219dc87d750706bbf
+/vendor/lib64/libsecureui.so,/vendor/lib64/libsecureui.so,41856,c49e84095f033709b24a685661c5f8e0dfc249d3bbfd27f9dac67b25fe435247
+/vendor/lib64/libsecureui_svcsock.so,/vendor/lib64/libsecureui_svcsock.so,48232,c3d1c260f9460aa5a7ef55e5000b3a5951195b5c434e143ba05acea2ba456179
+/vendor/lib64/libssd.so,/vendor/lib64/libssd.so,11272,42586a5fff1af366161f6207e97c203fadbf27ab49c396a9fd057c3305d72b67
+/vendor/lib64/libtime_genoff.so,/vendor/lib64/libtime_genoff.so,15536,75e7636036249f4013d647a97de6ecb4aadadf09f59bb20b9f510fbeab6d8be3
+/vendor/lib64/vendor.display.config@1.0.so,/vendor/lib64/vendor.display.config@1.0.so,173384,2ca3cb4916f6dc1619ae1c732c5716c872bf40fceef3a0dcbbe5dc856a323b6f
+/vendor/lib64/vendor.display.config@2.0.so,/vendor/lib64/vendor.display.config@2.0.so,171664,58783c6634ed08f87554227afb505b9a6d4ed1c70d839cd4f2ba0eb5c230462c
+/vendor/lib64/vendor.qti.hardware.tui_comm@1.0.so,/vendor/lib64/vendor.qti.hardware.tui_comm@1.0.so,190832,6d6766ac69916403f1d42876152b83fe4301248350f81e6542e0724386eb33f2
+recovery_b ramdisk:/system/lib64/libboot_control_qti.so,/system/lib64/libboot_control_qti.so,143832,c95f303373dc59b76fc27337568f505349b16c263d315de4a6d18afa1d78412b
+recovery_b ramdisk:/system/lib64/librecovery_updater.so,/system/lib64/librecovery_updater.so,83728,b5ba4c3745f7c43b70c6c323c3530d90132ae25a335ad630f10a87e0e94b0c0f
+/vendor/bin/hvdcp_opti,/system/bin/hvdcp_opti,325008,5b6b7ff13923839daf56d528d69f06b3c65b47f7ab82d5544622c2e7127d28bd

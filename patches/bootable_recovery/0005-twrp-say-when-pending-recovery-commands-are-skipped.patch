@@ -1,0 +1,31 @@
+From d74106dfbd9e1787a6360c27a427122055811d6b Mon Sep 17 00:00:00 2001
+From: glebn2 <40612835+glebn2@users.noreply.github.com>
+Date: Mon, 26 Oct 2026 22:13:13 +0300
+Subject: [PATCH 5/5] twrp: say when pending recovery commands are skipped
+
+If BCB commands (e.g. --update_package) are not run because /data stays encrypted, print a message instead of silently opening the main menu.
+---
+ twrp.cpp | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/twrp.cpp b/twrp.cpp
+index eedc581..3bdb729 100644
+--- a/twrp.cpp
++++ b/twrp.cpp
+@@ -247,6 +247,13 @@ static void process_recovery_mode(twrpAdbBuFifo* adb_bu_fifo, bool skip_decrypti
+ 	if ((DataManager::GetIntValue(TW_IS_ENCRYPTED) == 0 || skip_decryption) && (TWFunc::Path_Exists(SCRIPT_FILE_TMP) || TWFunc::Path_Exists(orsFile))) {
+ 		OpenRecoveryScript::Run_OpenRecoveryScript();
+ 	}
++	else if (TWFunc::Path_Exists(SCRIPT_FILE_TMP)) {
++		// BALMUDA: ORS skipped: pending BCB commands were not run because /data is still encrypted
++		gui_print_color("error", "\nPending recovery commands were NOT run: /data is still encrypted.\n");
++		gui_print("Decrypt data (Mount -> Decrypt Data), then install the update zip manually,\n"
++			"or reboot to system and start the update again.\n\n");
++		unlink(SCRIPT_FILE_TMP);
++	}
+ 
+ #ifdef TW_HAS_MTP
+ 	char mtp_crash_check[PROPERTY_VALUE_MAX];
+-- 
+2.43.0
+

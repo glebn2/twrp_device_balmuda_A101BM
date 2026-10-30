@@ -1,0 +1,37 @@
+From e6c2e8f82244dc5e7f066e35a4f061fa27694321 Mon Sep 17 00:00:00 2001
+From: glebn2 <40612835+glebn2@users.noreply.github.com>
+Date: Mon, 26 Oct 2026 22:13:13 +0300
+Subject: [PATCH 2/5] battery_utils: log battery info only when it changes
+
+The GUI polls the battery every second, which flooded the log.
+---
+ recovery_utils/battery_utils.cpp | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/recovery_utils/battery_utils.cpp b/recovery_utils/battery_utils.cpp
+index 323f525..39db3e7 100644
+--- a/recovery_utils/battery_utils.cpp
++++ b/recovery_utils/battery_utils.cpp
+@@ -63,8 +63,17 @@ BatteryInfo GetBatteryInfo() {
+           .isOk();  // should not have transport error
+     }
+ 
+-    LOG(INFO) << "charge_status " << toString(charge_status) << ", charging " << charging
+-              << ", status " << toString(res) << ", capacity " << capacity;
++    // The TWRP GUI polls the battery every second: log only changes
++    static int last_logged_status = -1, last_logged_res = -1;
++    static int32_t last_logged_capacity = INT32_MIN;
++    if (static_cast<int>(charge_status) != last_logged_status ||
++        static_cast<int>(res) != last_logged_res || capacity != last_logged_capacity) {
++      last_logged_status = static_cast<int>(charge_status);
++      last_logged_res = static_cast<int>(res);
++      last_logged_capacity = capacity;
++      LOG(INFO) << "charge_status " << toString(charge_status) << ", charging " << charging
++                << ", status " << toString(res) << ", capacity " << capacity;
++    }
+ 
+     constexpr int BATTERY_READ_TIMEOUT_IN_SEC = 10;
+     // At startup, the battery drivers in devices like N5X/N6P take some time to load
+-- 
+2.43.0
+

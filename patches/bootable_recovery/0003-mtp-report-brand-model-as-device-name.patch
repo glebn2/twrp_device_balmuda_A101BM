@@ -1,0 +1,57 @@
+From 8bf4b0450d43fa55ea7ce7bf43da993c156cd4a1 Mon Sep 17 00:00:00 2001
+From: glebn2 <40612835+glebn2@users.noreply.github.com>
+Date: Mon, 26 Oct 2026 22:13:13 +0300
+Subject: [PATCH 3/5] mtp: report "<brand> <model>" as device name
+
+Use ro.product.manufacturer and "<brand> <model>" for MTP DeviceInfo and the friendly name instead of ro.build.product (the device codename).
+---
+ mtp/ffs/mtp_MtpDatabase.cpp |  9 ++++++++-
+ mtp/ffs/mtp_MtpServer.cpp   | 11 +++++++++--
+ 2 files changed, 17 insertions(+), 3 deletions(-)
+
+diff --git a/mtp/ffs/mtp_MtpDatabase.cpp b/mtp/ffs/mtp_MtpDatabase.cpp
+index 399a60e..1f94a6e 100755
+--- a/mtp/ffs/mtp_MtpDatabase.cpp
++++ b/mtp/ffs/mtp_MtpDatabase.cpp
+@@ -483,7 +483,14 @@ MtpResponseCode IMtpDatabase::getDevicePropertyValue(MtpDeviceProperty property,
+   }
+ 
+   long longValue = 0;
+-  property_get("ro.build.product", prop_value, "unknown manufacturer");
++  // BALMUDA: MTP friendly name = "<brand> <model>" instead of the device codename
++  char brand[PROPERTY_VALUE_MAX], model[PROPERTY_VALUE_MAX];
++  property_get("ro.product.brand", brand, "");
++  property_get("ro.product.model", model, "unknown model");
++  if (brand[0])
++	snprintf(prop_value, sizeof(prop_value), "%s %s", brand, model);
++  else
++	snprintf(prop_value, sizeof(prop_value), "%s", model);
+   switch (type) {
+ 	case MTP_TYPE_INT8: {
+ 	  MTPD("MTP_TYPE_INT8\n");
+diff --git a/mtp/ffs/mtp_MtpServer.cpp b/mtp/ffs/mtp_MtpServer.cpp
+index ce890d1..d51223c 100755
+--- a/mtp/ffs/mtp_MtpServer.cpp
++++ b/mtp/ffs/mtp_MtpServer.cpp
+@@ -40,9 +40,16 @@
+ 
+ void twmtp_MtpServer::set_device_info() {
+ 	char property[512];
+-	property_get("ro.build.product", property, "unknown manufacturer");
++	// BALMUDA: MTP DeviceInfo — Manufacturer = ro.product.manufacturer, Model = "<brand> <model>"
++	property_get("ro.product.manufacturer", property, "unknown manufacturer");
+ 	mtpinfo.deviceInfoManufacturer = MtpStringBuffer(property);
+-	property_get("ro.product.model", property, "unknown model");
++	char brand[PROPERTY_VALUE_MAX], model[PROPERTY_VALUE_MAX];
++	property_get("ro.product.brand", brand, "");
++	property_get("ro.product.model", model, "unknown model");
++	if (brand[0])
++		snprintf(property, sizeof(property), "%s %s", brand, model);
++	else
++		snprintf(property, sizeof(property), "%s", model);
+ 	mtpinfo.deviceInfoModel = MtpStringBuffer(property);
+ 	mtpinfo.deviceInfoDeviceVersion = MtpStringBuffer("None");
+ 	property_get("ro.serialno", property, "unknown serial number");
+-- 
+2.43.0
+

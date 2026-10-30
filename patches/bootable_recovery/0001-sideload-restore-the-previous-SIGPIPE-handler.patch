@@ -1,0 +1,60 @@
+From 85ca7804e93492548bc3d16f023d7fb5af2f924d Mon Sep 17 00:00:00 2001
+From: glebn2 <40612835+glebn2@users.noreply.github.com>
+Date: Mon, 26 Oct 2026 22:13:13 +0300
+Subject: [PATCH 1/5] sideload: restore the previous SIGPIPE handler
+
+Setting SIGPIPE to SIG_DFL after sideload killed recovery on the next write to a closed pipe; the new instance did not have /data mounted.
+---
+ install/adb_install.cpp     | 5 +++--
+ twrpinstall/adb_install.cpp | 5 +++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/install/adb_install.cpp b/install/adb_install.cpp
+index feebaee..941eaba 100755
+--- a/install/adb_install.cpp
++++ b/install/adb_install.cpp
+@@ -277,7 +277,8 @@ static void ListenAndExecuteMinadbdCommands(
+ static void CreateMinadbdServiceAndExecuteCommands(
+     const std::map<MinadbdCommand, CommandFunction>& command_map,
+     bool rescue_mode, std::string install_file) {
+-  signal(SIGPIPE, SIG_IGN);
++  // Restore the previous SIGPIPE handler (TWRP ignores SIGPIPE) instead of SIG_DFL
++  sighandler_t prev_sigpipe = signal(SIGPIPE, SIG_IGN);
+ 
+   android::base::unique_fd recovery_socket;
+   android::base::unique_fd minadbd_socket;
+@@ -333,7 +334,7 @@ static void CreateMinadbdServiceAndExecuteCommands(
+     }
+   }
+ 
+-  signal(SIGPIPE, SIG_DFL);
++  signal(SIGPIPE, prev_sigpipe == SIG_ERR ? SIG_IGN : prev_sigpipe);
+ }
+ 
+   int ApplyFromAdb(const char* install_file, Device::BuiltinAction* reboot_action) {
+diff --git a/twrpinstall/adb_install.cpp b/twrpinstall/adb_install.cpp
+index 5486b7e..3089af0 100755
+--- a/twrpinstall/adb_install.cpp
++++ b/twrpinstall/adb_install.cpp
+@@ -278,7 +278,8 @@ static void ListenAndExecuteMinadbdCommands(
+ static void CreateMinadbdServiceAndExecuteCommands(
+     const std::map<MinadbdCommand, CommandFunction>& command_map,
+     bool rescue_mode __unused, std::string install_file __unused) {
+-  signal(SIGPIPE, SIG_IGN);
++  // Restore the previous SIGPIPE handler (TWRP ignores SIGPIPE) instead of SIG_DFL
++  sighandler_t prev_sigpipe = signal(SIGPIPE, SIG_IGN);
+ 
+   android::base::unique_fd recovery_socket;
+   android::base::unique_fd minadbd_socket;
+@@ -332,7 +333,7 @@ static void CreateMinadbdServiceAndExecuteCommands(
+     }
+   }
+ 
+-  signal(SIGPIPE, SIG_DFL);
++  signal(SIGPIPE, prev_sigpipe == SIG_ERR ? SIG_IGN : prev_sigpipe);
+ }
+ 
+   int twrp_sideload(const char* install_file, Device::BuiltinAction* reboot_action) {
+-- 
+2.43.0
+

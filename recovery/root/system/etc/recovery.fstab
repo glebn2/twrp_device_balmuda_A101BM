@@ -1,0 +1,12 @@
+# BALMUDA Phone: based on the stock recovery.fstab, userdata flags from the stock fstab
+
+#<src>                                   <mnt_point>   <type> <mnt_flags>                                          <fs_mgr_flags>
+system                                   /system       ext4   ro,barrier=1,discard                                 wait,slotselect,avb=vbmeta_system,logical,first_stage_mount
+system_ext                               /system_ext   ext4   ro,barrier=1,discard                                 wait,slotselect,avb=vbmeta_system,logical,first_stage_mount
+product                                  /product      ext4   ro,barrier=1,discard                                 wait,slotselect,avb=vbmeta_system,logical,first_stage_mount
+vendor                                   /vendor       ext4   ro,barrier=1,discard                                 wait,slotselect,avb,logical,first_stage_mount
+odm                                      /odm          ext4   ro,barrier=1,discard                                 wait,slotselect,avb,logical,first_stage_mount
+/dev/block/by-name/metadata              /metadata     ext4   noatime,nosuid,nodev,discard                         wait,check,formattable,wrappedkey,first_stage_mount
+/dev/block/bootdevice/by-name/userdata   /data         f2fs   noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier,inlinecrypt latemount,wait,check,formattable,quota,reservedsize=128M,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,metadata_encryption=aes-256-xts:wrappedkey_v0,keydirectory=/metadata/vold/metadata_encryption,checkpoint=fs
+/dev/block/bootdevice/by-name/misc       /misc         emmc   defaults                                             defaults
+/dev/block/mmcblk1p1                     /sdcard1      vfat   nosuid,nodev                                         wait,voldmanaged=sdcard1:auto
