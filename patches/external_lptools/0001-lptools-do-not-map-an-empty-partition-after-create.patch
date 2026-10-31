@@ -1,0 +1,32 @@
+From 4017e1182db0d0ca2bc2fa8f96ffc784ad7692e4 Mon Sep 17 00:00:00 2001
+From: glebn2 <40612835+glebn2@users.noreply.github.com>
+Date: Sat, 31 Oct 2026 22:46:14 +0300
+Subject: [PATCH] lptools: do not map an empty partition after create
+
+"create <name> 0" wrote the partition to the metadata and then failed to
+map it (device-mapper has no targets for an empty partition), so it
+exited with 1 although the partition was created. Skip the map step for
+size 0 and exit with 0.
+---
+ lptools.cc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/lptools.cc b/lptools.cc
+index 160cd44..0c0e547 100644
+--- a/lptools.cc
++++ b/lptools.cc
+@@ -199,6 +199,11 @@ int main(int argc, char **argv) {
+             std::cerr << "Failed to write partition table" << std::endl;
+             exit(1);
+         }
++        // An empty partition has no extents, so there is nothing to map
++        if(size == 0) {
++            std::cout << "Created empty partition " << partName << std::endl;
++            exit(0);
++        }
+ 
+         std::string dmPath;
+         CreateLogicalPartitionParams params {
+-- 
+2.43.0
+

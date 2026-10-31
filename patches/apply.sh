@@ -3,7 +3,7 @@
 # Run from the top of the source tree after "repo sync".
 set -e
 DIR=$(dirname "$(readlink -f "$0")")
-for pair in bootable/recovery:bootable_recovery system/vold:system_vold; do
+for pair in bootable/recovery:bootable_recovery system/vold:system_vold external/lptools:external_lptools; do
   repo_dir=${pair%%:*}
   patch_dir=$DIR/${pair##*:}
   for p in "$patch_dir"/*.patch; do

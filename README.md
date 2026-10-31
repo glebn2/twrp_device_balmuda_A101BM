@@ -55,7 +55,7 @@ mka recoveryimage
 
 The image is `out/target/product/A101BM/recovery.img`.
 
-`patches/` holds fixes for `bootable/recovery` and `system/vold` (see the commit
+`patches/` holds fixes for `bootable/recovery`, `system/vold` and `external/lptools` (see the commit
 messages in each patch).
 
 ## Prebuilts
